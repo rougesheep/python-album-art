@@ -1,0 +1,10 @@
+[Unit]
+Description=Restart python-album-art service
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl restart python-album-art.service
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,6 @@
+[Path]
+PathModified=/opt/album-art/album-art.py
+#PathChanged=/opt/album-art/album-art.py
+
+[Install]
+WantedBy=multi-user.target
