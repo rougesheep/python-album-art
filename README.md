@@ -2,6 +2,7 @@
 
 This is a simple Python script that displays album art from a Sonos system for the [Adafruit RGB Matrix Bonnet](https://www.adafruit.com/product/3211).
 
+![Album art display](album.png)
 ## Running
 
 The first run will generate a default config file for you. Check this and make sure it matches your setup. Most of the options come from the [rpi-led-matrix](https://github.com/hzeller/rpi-rgb-led-matrix) and they're explained much better than I could over there. You will need to set your Sonos room name.
