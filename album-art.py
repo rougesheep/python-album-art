@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import os
+import configparser
 import sys
 import soco
 import time
@@ -9,22 +11,35 @@ from rgbmatrix import RGBMatrix, RGBMatrixOptions
 from PIL import Image
 from soco.events import event_listener
 
+print(os.getcwd())
+
+config = configparser.ConfigParser()
+
+if not os.path.exists('config.ini'):
+    print('Config file not found.')
+    config['SONOS'] = { 'room': 'Sonos' }
+    config['LED'] = { 'hardware_mapping': 'adafruit-hat-pwm', 'rows': 64, 'cols': 64, 'gpio_slowdown': 2, 'brightness': 50, 'pwm_bits': 11 }
+
+    with open('config.ini', 'w') as configfile:
+        config.write(configfile)
+
+    print('Default config written to config.ini.')
+    sys.exit(0)
+
+config.read('config.ini')
+
 options = RGBMatrixOptions()
-options.rows = 64
-options.cols = 64
-#options.chain_length = 1
-#options.parallel = 1
-options.hardware_mapping = 'adafruit-hat-pwm'
-options.gpio_slowdown = 1
-options.brightness = 50
-options.pwm_bits = 10
-options.pwm_lsb_nanoseconds = 50
-options.pwm_dither_bits = 1
+options.rows = config['LED'].getint('rows')
+options.cols = config['LED'].getint('cols')
+options.hardware_mapping = config['LED']['hardware_mapping']
+options.gpio_slowdown = config['LED'].getint('gpio_slowdown')
+options.brightness = config['LED'].getint('brightness')
+options.pwm_bits = config['LED'].getint('pwm_bits')
 options.show_refresh_rate = 0
 
 panel = RGBMatrix(options = options)
 
-device = soco.discovery.by_name('Bedroom').group.coordinator
+device = soco.discovery.by_name(config['SONOS']['room']).group.coordinator
 
 print(device.player_name)
 
@@ -58,4 +73,4 @@ while True:
         sub_transport.unsubscribe()
         event_listener.stop()
         sys.exit(0)
-    time.sleep(5)
+    time.sleep(1)
