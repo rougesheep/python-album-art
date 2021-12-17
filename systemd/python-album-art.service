@@ -3,7 +3,8 @@ Description=Python album art display for sonos with rgb-matrix
 
 [Service]
 Environment="PYTHONUNBUFFERED=TRUE"
-ExecStart=/opt/album-art/album-art.py
+WorkingDirectory=/opt/python-album-art
+ExecStart=/opt/python-album-art/album-art.py
 Restart=on-failure
 
 [Install]
